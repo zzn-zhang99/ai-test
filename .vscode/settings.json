@@ -1,10 +1,10 @@
 {
     // ==================== Java 配置 ====================
-    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-17",
+    "java.jdt.ls.java.home": "E:\\Java\\jdk17.0.16",
     "java.configuration.runtimes": [
         {
             "name": "JavaSE-17",
-            "path": "C:\\Program Files\\Java\\jdk-17",
+            "path": "E:\\Java\\jdk17.0.16",
             "default": true
         }
     ],
@@ -22,7 +22,7 @@
     "maven.terminal.customEnv": [
         {
             "environmentVariable": "JAVA_HOME",
-            "value": "C:\\Program Files\\Java\\jdk-17"
+            "value": "E:\\Java\\jdk17.0.16"
         }
     ],
 
