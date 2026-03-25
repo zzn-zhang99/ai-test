@@ -1,0 +1,80 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Maven: Clean Compile",
+            "type": "shell",
+            "command": "mvn",
+            "args": [
+                "clean",
+                "compile"
+            ],
+            "group": "build",
+            "presentation": {
+                "panel": "shared",
+                "focus": false
+            },
+            "problemMatcher": "$maven"
+        },
+        {
+            "label": "Maven: Clean Package",
+            "type": "shell",
+            "command": "mvn",
+            "args": [
+                "clean",
+                "package",
+                "-DskipTests"
+            ],
+            "group": "build",
+            "presentation": {
+                "panel": "shared",
+                "focus": false
+            },
+            "problemMatcher": "$maven"
+        },
+        {
+            "label": "Maven: Run Tests",
+            "type": "shell",
+            "command": "mvn",
+            "args": [
+                "test"
+            ],
+            "group": "test",
+            "presentation": {
+                "panel": "shared",
+                "focus": false
+            },
+            "problemMatcher": "$maven"
+        },
+        {
+            "label": "Maven: Spring Boot Run",
+            "type": "shell",
+            "command": "mvn",
+            "args": [
+                "spring-boot:run"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "panel": "shared",
+                "focus": true
+            },
+            "problemMatcher": "$maven"
+        },
+        {
+            "label": "Maven: Generate Dependency Tree",
+            "type": "shell",
+            "command": "mvn",
+            "args": [
+                "dependency:tree"
+            ],
+            "group": "none",
+            "presentation": {
+                "panel": "shared",
+                "focus": false
+            }
+        }
+    ]
+}

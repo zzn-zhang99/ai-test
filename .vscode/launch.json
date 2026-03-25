@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch DemoApplication",
+            "request": "launch",
+            "mainClass": "com.example.demo.DemoApplication",
+            "projectName": "spring-boot-template",
+            "env": {
+                "SPRING_PROFILES_ACTIVE": "dev"
+            },
+            "vmArgs": [
+                "-Dspring.output.ansi.enabled=always",
+                "-Dfile.encoding=UTF-8"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Launch DemoApplication (Debug)",
+            "request": "launch",
+            "mainClass": "com.example.demo.DemoApplication",
+            "projectName": "spring-boot-template",
+            "env": {
+                "SPRING_PROFILES_ACTIVE": "dev"
+            },
+            "vmArgs": [
+                "-Dspring.output.ansi.enabled=always",
+                "-Dfile.encoding=UTF-8",
+                "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+            ]
+        }
+    ]
+}

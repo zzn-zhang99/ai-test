@@ -54,7 +54,7 @@ out/
 .sts4-cache
 
 ### VS Code ###
-.vscode/
+# .vscode/ 注释掉以共享团队配置
 
 ### NetBeans ###
 /nbproject/private/
