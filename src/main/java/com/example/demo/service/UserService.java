@@ -1,53 +1,59 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
-import com.example.demo.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * 用户业务逻辑层
+ * 用户业务服务接口
  */
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    /**
+     * 查询所有用户
+     *
+     * @return 用户列表
+     */
+    List<User> findAll();
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    /**
+     * 根据ID查询用户
+     *
+     * @param id 用户ID
+     * @return 用户对象
+     */
+    Optional<User> findById(Long id);
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
-    }
+    /**
+     * 根据用户名查询用户
+     *
+     * @param username 用户名
+     * @return 用户对象
+     */
+    Optional<User> findByUsername(String username);
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    /**
+     * 创建用户
+     *
+     * @param user 用户对象
+     * @return 创建后的用户
+     */
+    User create(User user);
 
-    @Transactional
-    public User create(User user) {
-        return userRepository.save(user);
-    }
+    /**
+     * 更新用户
+     *
+     * @param id   用户ID
+     * @param user 用户对象
+     * @return 更新后的用户
+     */
+    User update(Long id, User user);
 
-    @Transactional
-    public User update(Long id, User user) {
-        User existing = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        existing.setUsername(user.getUsername());
-        existing.setEmail(user.getEmail());
-        existing.setPassword(user.getPassword());
-        return userRepository.save(existing);
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
+    /**
+     * 删除用户
+     *
+     * @param id 用户ID
+     */
+    void delete(Long id);
 }
