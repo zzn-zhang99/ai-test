@@ -56,11 +56,10 @@
 
         <!-- ==================== Database ==================== -->
 
-        <!-- H2 Database (Runtime) -->
+        <!-- H2 Database (Compile, Test & Runtime) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- MySQL Driver (Runtime) -->
