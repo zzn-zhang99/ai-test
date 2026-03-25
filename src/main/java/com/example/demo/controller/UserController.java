@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.Result;
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,30 +19,30 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public Result<List<User>> getAllUsers() {
+        return Result.success(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public Result<User> getUser(@PathVariable Long id) {
         return userService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(Result::success)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.create(user);
+    public Result<User> createUser(@RequestBody User user) {
+        return Result.success(userService.create(user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return ResponseEntity.ok(userService.update(id, user));
+    public Result<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        return Result.success(userService.update(id, user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public Result<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        return ResponseEntity.ok().build();
+        return Result.success();
     }
 }
