@@ -1,0 +1,174 @@
+# ============================================
+# Spring Boot 3.4 应用配置
+# ============================================
+
+spring:
+  # 应用名称
+  application:
+    name: user-service
+
+  # ============================================
+  # 数据源配置（三数据库兼容：H2 / MySQL / PostgreSQL）
+  # ============================================
+  datasource:
+    # H2 内存模式（开发测试用）
+    url: jdbc:h2:mem:userdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+    # MySQL 配置（生产环境取消注释）
+    # url: jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    # username: root
+    # password: your_password
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+
+    # PostgreSQL 配置（生产环境取消注释）
+    # url: jdbc:postgresql://localhost:5432/userdb
+    # username: postgres
+    # password: your_password
+    # driver-class-name: org.postgresql.Driver
+
+    # HikariCP 连接池配置（Spring Boot 3.x 默认连接池）
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-timeout: 20000
+      pool-name: UserHikariPool
+
+  # ============================================
+  # JPA / Hibernate 配置
+  # ============================================
+  jpa:
+    # 数据库方言（根据实际数据库选择）
+    database-platform: org.hibernate.dialect.H2Dialect
+    # MySQL: org.hibernate.dialect.MySQL8Dialect
+    # PostgreSQL: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      # DDL 策略：update=自动更新，validate=仅验证，none=不操作
+      ddl-auto: update
+      naming:
+        # 物理命名策略：保持与数据库一致的下划线命名
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    # JPA 通用属性
+    properties:
+      hibernate:
+        # 格式化 SQL 输出
+        format_sql: true
+        # 批量处理配置
+        jdbc.batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+    # 显示 SQL（开发环境开启，生产关闭）
+    show-sql: true
+
+    # 延迟加载 Open EntityManager
+    open-in-view: false
+
+  # ============================================
+  # H2 控制台配置（仅开发环境）
+  # ============================================
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# ============================================
+# 服务器配置
+# ============================================
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  # 压缩响应
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+
+# ============================================
+# 日志配置
+# ============================================
+logging:
+  level:
+    root: INFO
+    # Spring 框架日志
+    org.springframework.web: DEBUG
+    # Hibernate SQL 日志
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # 应用包日志
+    com.example.user: DEBUG
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+  # 日志文件输出
+  file:
+    name: logs/user-service.log
+
+# ============================================
+# 应用自定义配置
+# ============================================
+app:
+  # 分页配置
+  pagination:
+    default-page-size: 20
+    max-page-size: 100
+
+  # 安全配置（示例）
+  security:
+    jwt:
+      secret: your-jwt-secret-key-change-in-production
+      expiration: 86400000  # 24小时
+
+---
+# ============================================
+# 多环境配置：开发环境 (dev)
+# ============================================
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    com.example.user: DEBUG
+
+---
+# ============================================
+# 多环境配置：生产环境 (prod)
+# ============================================
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/userdb}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.example.user: INFO
